@@ -50,40 +50,48 @@ The Black-Scholes model calculates the **option price** by considering how much 
 
 ### **5. The Formula Itself**
 
+# Option Pricing Calculator
+
+## Black-Scholes Model
+
 The Black-Scholes formula for a **call option** is:
 
-\[
+$$
 C = S_0 N(d_1) - X e^{-rT} N(d_2)
-\]
+$$
 
-Let’s break down what each term means:
+Where:
+
 - \( C \): The price of the call option.
-- \( S_0 \): The current price of the underlying stock (e.g., Apple stock today).
+- \( S_0 \): The current price of the underlying stock.
 - \( X \): The strike price (the price at which you have the right to buy the stock).
 - \( T \): The time until the option expires (expressed as a fraction of a year, like 0.25 years for three months).
-- \( r \): The risk-free interest rate (usually the rate on government bonds).
-- \( \sigma \): The volatility of the stock price (how much the stock price is expected to fluctuate).
-- \( N(d_1) \) and \( N(d_2) \): These are the values from the **cumulative normal distribution** (the bell curve that shows probabilities). Essentially, they tell you the likelihood of the stock price moving in your favor.
+- \( r \): The risk-free interest rate (e.g., the rate on government bonds).
+- \( \sigma \): The volatility of the stock (a measure of how much the stock price fluctuates).
+- \( \ln \): The natural logarithm.
+
 
 ### **6. Breaking Down \( d_1 \) and \( d_2 \)**
 
-The terms \( d_1 \) and \( d_2 \) are calculated as:
+$$
+d_1 = \frac{ \ln{\frac{S_0}{X}} + (r + \frac{\sigma^2}{2}) T}{\sigma \sqrt{T}}
+$$
 
-\[
-d_1 = \frac{\ln(S_0 / X) + (r + 0.5 \sigma^2) T}{\sigma \sqrt{T}}
-\]
-\[
+$$
 d_2 = d_1 - \sigma \sqrt{T}
-\]
+$$
 
-- \( d_1 \) and \( d_2 \) represent "z-scores" or how many standard deviations a particular outcome (like the stock reaching a certain price) is away from the average. They factor in the relationship between the current stock price, strike price, interest rates, time, and volatility.
+Where:
+
+- \( d_1 \) and \( d_2 \) represent **"z-scores"** or how many standard deviations a particular outcome (like the stock reaching a certain price) is away from the average. They factor in the relationship between the current stock price, strike price, interest rates, time, and volatility.
 - \( N(d_1) \) is the probability that the option will expire **in the money** (meaning the stock price will be above the strike price, making the call option valuable).
 - \( N(d_2) \) is related to the probability that the **option will be exercised** after accounting for the time value of money.
 
-### **7. Interpretation of the Formula**
+### **Interpretation of the Formula**
 
 - The term \( S_0 N(d_1) \) represents the **expected gain** from owning the stock.
 - The term \( X e^{-rT} N(d_2) \) represents the **present value** of the strike price you’ll have to pay when you exercise the option.
+
 
 The difference between these two terms gives the fair value of the call option.
 
@@ -91,9 +99,9 @@ The difference between these two terms gives the fair value of the call option.
 
 There’s also a version of the Black-Scholes formula for **put options** (which give the right to sell the stock). The formula is:
 
-\[
+$$
 P = X e^{-rT} N(-d_2) - S_0 N(-d_1)
-\]
+$$
 
 This is very similar to the call option formula but reflects the value of being able to sell the stock at the strike price rather than buy it.
 
@@ -117,5 +125,45 @@ These are important because they help traders understand how their option positi
 - **Simplicity:** The Black-Scholes formula provides a relatively simple way to estimate the fair value of an option.
 - **Market Efficiency:** Many financial markets use the Black-Scholes model as a benchmark for pricing options. Even though it has limitations (like assuming constant volatility), it’s still widely used.
 - **Risk Management:** The model and its extensions are used by traders and financial institutions to manage risk, hedge positions, and develop trading strategies.
+
+## Other Models
+
+### Binomial Option Pricing Model
+
+The formula for the **Binomial Option Pricing Model** involves creating a tree of possible future stock prices and calculating option values at each node.
+
+$$
+u = e^{\sigma \sqrt{\Delta t}}, \quad d = \frac{1}{u}
+$$
+
+$$
+p = \frac{e^{r \Delta t} - d}{u - d}
+$$
+
+Where:
+
+- \( u \): The up factor for stock prices.
+- \( d \): The down factor for stock prices.
+- \( p \): The risk-neutral probability of an upward move.
+- \( \Delta t \): The time step (for example, if there are \( N \) steps over time \( T \), then \( \Delta t = \frac{T}{N} \)).
+
+### Monte Carlo Simulation
+
+The Monte Carlo simulation generates random stock prices and averages the option payoffs over many simulations.
+
+The stock price at time \( T \) is simulated as:
+
+$$
+S_T = S_0 \cdot \exp\left(\left(r - \frac{\sigma^2}{2}\right) T + \sigma \sqrt{T} \cdot Z\right)
+$$
+
+Where:
+
+- \( Z \) is a random variable drawn from a standard normal distribution.
+
+- ## Disclaimer
+
+This project is a personal interest and has no connection to my professional role. The content shared here is for educational purposes only and should not be considered financial advice. Please note that the information may not be accurate or applicable to every situation.
+
 
 <img width="718" alt="Screenshot 2024-09-15 at 11 27 58 pm" src="https://github.com/user-attachments/assets/5a080a3a-a70b-4331-8c6d-6d096647f9ec">
