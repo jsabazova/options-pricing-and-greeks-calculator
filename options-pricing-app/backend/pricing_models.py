@@ -1,5 +1,13 @@
 import numpy as np
 from scipy.stats import norm
+"""
+S: Current stock price
+X: Strike price
+T: Time to maturity (in years)
+r: Risk-free interest rate (decimal)
+sigma: Volatility of the stock (decimal)
+option_type: "call" for Call option, "put" for Put option
+"""
 
 def black_scholes(S, X, T, r, sigma, option_type='call'):
     # Calculate d1 and d2

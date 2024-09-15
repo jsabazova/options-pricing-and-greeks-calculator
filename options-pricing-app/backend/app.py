@@ -1,19 +1,20 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from pricing_models import black_scholes
 
 app = Flask(__name__)
-
+CORS(app)
 # This Flask API accepts a JSON object containing option parameters and returns the calculated price.
 
 @app.route('/price_option', methods=['POST'])
 def price_option():
-    data = request.json
-    S = data['S']  # Current Stock price
-    X = data['X']  # Strike price (at which the option can be sold/bought)
-    T = data['T']  # Time to maturity/expiration 
-    r = data['r']  # Risk-free interest rate (risk free inv like gov bond etc)
-    sigma = data['sigma']  # Volatility 
-    option_type = data['option_type']  # 'call' or 'put'
+    data = request.get_json()
+    S = float(data['stock_price'])      # Current Stock price
+    X = float(data['strike_price'])     # Strike price (at which the option can be sold/bought)
+    T = float(data['time_to_maturity']) # Time to maturity/expiration 
+    r = float(data['risk_free_rate'])   # Risk-free interest rate (risk free inv like gov bond etc)
+    sigma = float(data['volatility'])   # Volatility 
+    option_type = data['option_type']   # 'call' or 'put'
 
     #Notes:
     # Assume no arbitrage (no way to make risk free profit), efficient markets, long-normal distribution
@@ -22,7 +23,7 @@ def price_option():
     # Calculate option price using Black-Scholes model
     price = black_scholes(S, X, T, r, sigma, option_type)
     
-    return jsonify({'price': price})
+    return jsonify({"option_price": price})
 
 if __name__ == '__main__':
     app.run(debug=True)
